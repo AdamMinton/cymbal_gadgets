@@ -107,4 +107,3 @@ view: marketing_campaign_impact {
     fields: [campaignname, eventname, durationdays, total_campaign_impact]
   }
 }
-

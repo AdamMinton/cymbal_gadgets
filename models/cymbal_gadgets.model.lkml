@@ -22,4 +22,3 @@ explore: transactions {
     relationship: one_to_many
   }
 }
-

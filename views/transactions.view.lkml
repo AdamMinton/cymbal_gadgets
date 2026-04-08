@@ -285,4 +285,3 @@ view: transactions {
     ]
   }
 }
-

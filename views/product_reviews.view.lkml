@@ -89,4 +89,3 @@ view: product_reviews {
     fields: [reviewid, productname, reviewdate_date, reviewtext, rating]
   }
 }
-
