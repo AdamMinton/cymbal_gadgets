@@ -1,4 +1,4 @@
-connection: "looker-private-demo"
+connection: "bigquery"
 
 include: "/views/*"
 include: "/dashboards/*"
