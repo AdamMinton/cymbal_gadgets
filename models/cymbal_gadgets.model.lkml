@@ -1,4 +1,4 @@
-connection: "looker-private-demo"
+connection: "cymbal_gadgets"
 
 include: "/views/*"
 include: "/dashboards/*"
