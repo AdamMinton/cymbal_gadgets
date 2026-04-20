@@ -9,11 +9,13 @@
     title_text: "📈 Executive Performance Overview"
     subtitle_text: "Comprehensive analysis of Revenue, Gross Profit, and Sales Trends"
     body_text: |
-      <div style="border-left: 5px solid #4285F4; padding: 10px; background-color: #f8f9fa;">
-        Welcome to the **Executive Transactions Overview**. This dashboard provides real-time visibility into our core retail metrics.
-        - **KPIs**: Summary of top-line revenue and profitability.
-        - **Trends**: Visual analysis of performance over time.
-        - **Segmentation**: Deep dives into categories and brands.
+      <div style="border-left: 5px solid #4285F4; padding: 10px; background-color: #f8f9fa; font-family: 'Open Sans', 'Helvetica', sans-serif;">
+        Welcome to the <b>Executive Transactions Overview</b>. This dashboard provides real-time visibility into our core retail metrics.
+        <ul style="margin-top: 10px;">
+          <li><b>KPIs</b>: Summary of top-line revenue and profitability.</li>
+          <li><b>Trends</b>: Visual analysis of performance over time.</li>
+          <li><b>Segmentation</b>: Deep dives into categories and brands.</li>
+        </ul>
       </div>
     row: 0
     col: 0
