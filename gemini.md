@@ -1,5 +1,9 @@
 # Gemini Agent Guidelines - Looker Project
 
+## Looker Project Specification
+- **Instance URL:** https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app
+- **Project ID:** cymbal_gadgets
+
 ## Core Development Principles
 - **LookML Best Practices:** Always consult available Looker skills and documentation for instructions on creating and optimizing LookML.
 - **LAMS Validation:** A hook is triggered after every file update. You must resolve the issues identified by LAMS in the file you are working in.
