@@ -15,5 +15,6 @@
 - **IDE Syncing:** After pushing changes via the CLI, the Looker IDE will be out of sync. You must instruct the user to perform the following steps to see the updates in the Looker UI:
     1. Open the project in the Looker instance.
     2. Click **"Revert to..."** in the Git menu.
-    3. Select **"Revert local changes"**. 
+    3. Select **"Revert uncommitted changes"**. 
+    4. Select **"Pull From.."** and then select **"Pull from Remote"**
     *Note: This allows the IDE to pull in the remote changes created by the CLI.*
