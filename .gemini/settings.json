@@ -22,7 +22,6 @@
             "excludeTools": [
                 "update_project_file",
                 "switch_git_branch",
-                "dev_mode",
                 "create_git_branch",
                 "create_project_directory",
                 "create_project_file",
@@ -71,7 +70,7 @@
     "hooks": {
         "AfterTool": [
             {
-                "matcher": ".*",
+                "matcher": "*",
                 "hooks": [
                     {
                         "name": "run-lams-after-edit",
