@@ -14,3 +14,5 @@ constant: star_rating_html {
   </div>"
 }
 
+#LAMS
+#rule: W1{} # Block indentation

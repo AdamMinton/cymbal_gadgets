@@ -1,3 +1,4 @@
 .gemini/**
 .env
 .vscode/**
+.agents/**
