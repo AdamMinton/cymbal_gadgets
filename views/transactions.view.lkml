@@ -271,6 +271,26 @@ view: transactions {
     sql: ${customerid} ;;
   }
 
+  dimension: shipment_status {
+    label: "Shipment status"
+    sql: ${TABLE}.shipment_status;;
+  }
+  dimension: shippingmethod {
+    label: "Shipping method"
+    sql: ${TABLE}.shipmentmethod;;
+  }
+
+  dimension: distribution_center_city {
+    label: "Distribution Center"
+    sql: ${TABLE}.distribution_center_city ;;
+  }
+
+  measure: delayed_order_count {
+    label: "Cancelled Order Count"
+    type: count
+    filters: [shipment_status: "Delayed"]
+  }
+
   # ----- Sets of fields for drilling ------
   set: transaction_details {
     fields: [
