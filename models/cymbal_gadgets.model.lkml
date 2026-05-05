@@ -18,7 +18,12 @@ explore: transactions {
     relationship: many_to_many
   }
   join: marketing_campaign_impact {
-    sql_on: ${transactions.salesid} = ${marketing_campaign_impact.salesid} ;;
+    sql_on: ${transactions.pk1_sales_id} = ${marketing_campaign_impact.pk1_sales_id} ;;
     relationship: one_to_many
   }
+  join: customer_spending_stats {
+    sql_on: ${transactions.customerid} = ${customer_spending_stats.pk1_customer_id} ;;
+    relationship: many_to_one
+  }
 }
+ 
