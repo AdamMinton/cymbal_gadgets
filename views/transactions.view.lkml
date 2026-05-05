@@ -306,6 +306,26 @@ view: transactions {
     value_format_name: percent_1
   }
 
+  measure: total_lost_revenue {
+    group_label: "Financials"
+    label: "Total Lost Revenue"
+    description: "Sum of revenue (net of discounts) for transactions older than 30 days with no shipment status."
+    type: sum
+    sql: ${totalprice} - ${discountamount} ;;
+    filters: [is_lost_revenue: "yes"]
+    value_format_name: usd_0
+    drill_fields: [transaction_details*]
+  }
+
+  measure: lost_revenue_count {
+    group_label: "Financials"
+    label: "Lost Revenue Count"
+    description: "Number of transactions older than 30 days with no shipment status."
+    type: count
+    filters: [is_lost_revenue: "yes"]
+    drill_fields: [transaction_details*]
+  }
+
   measure: unique_customers {
     label: "Total Unique Customers"
     description: "The number of distinct customers who have made transactions."
@@ -318,6 +338,14 @@ view: transactions {
     label: "Shipment status"
     description: "The current status of the shipment (e.g., Shipped, Delayed)."
     sql: ${TABLE}.shipment_status;;
+  }
+
+  dimension: is_lost_revenue {
+    group_label: "Financials"
+    label: "Is Lost Revenue?"
+    description: "True if the transaction occurred more than 30 days ago but shipment status is null."
+    type: yesno
+    sql: DATE_DIFF(CURRENT_DATE(), ${transaction_date}, DAY) > 30 AND ${shipment_status} IS NULL ;;
   }
   dimension: shippingmethod {
     label: "Shipping method"
