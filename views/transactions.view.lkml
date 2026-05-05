@@ -360,7 +360,7 @@ view: transactions {
   }
 
   measure: delayed_order_count {
-    label: "Cancelled Order Count"
+    label: "Delayed Order Count"
     description: "The number of orders with a 'Delayed' shipment status."
     type: count
     filters: [shipment_status: "Delayed"]
