@@ -249,10 +249,10 @@ view: transactions {
   dimension: gross_profit {
     group_label: "Financials"
     label: "Gross Profit"
-    description: "Total Price minus Product Cost (multiplied by quantity)."
+    description: "Total Price minus Discount Amount and Product Cost (multiplied by quantity)."
     type: number
     value_format_name: usd
-    sql: ${totalprice} - (${product_cost} * ${quantity}) ;;
+    sql: ${totalprice} - ${discountamount} - (${product_cost} * ${quantity}) ;;
   }
 
   # --- Measures ---
@@ -265,9 +265,9 @@ view: transactions {
 
   measure: total_revenue {
     label: "Total Revenue"
-    description: "Sum of total price for all transactions."
+    description: "Sum of total price minus discounts for all transactions."
     type: sum
-    sql: ${totalprice} ;;
+    sql: ${totalprice} - ${discountamount} ;;
     value_format_name: usd_0
     drill_fields: [transaction_details*]
   }
@@ -291,9 +291,9 @@ view: transactions {
 
   measure: average_order_value {
     label: "Average Order Value (AOV)"
-    description: "Average revenue generated per transaction."
+    description: "Average revenue (net of discounts) generated per transaction."
     type: average
-    sql: ${totalprice} ;;
+    sql: ${totalprice} - ${discountamount} ;;
     value_format_name: usd
     drill_fields: [transaction_details*]
   }
