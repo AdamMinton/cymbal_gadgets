@@ -11,7 +11,7 @@
 - **Code Integrity:** Never commit broken code. Ensure all validation checks pass before proceeding to the commit stage.
 
 ## Git & Deployment Workflow
-- **Commits:** Create and push commits often. Aim to commit after the completion of every individual feature or logical change.
+- **Commits:** Create and push commits often. Aim to commit after the completion of every individual feature or logical change when the user confirms it's completed.
 - **IDE Syncing:** After pushing changes via the CLI, the Looker IDE will be out of sync. You must instruct the user to perform the following steps to see the updates in the Looker UI:
     1. Open the project in the Looker instance.
     2. Click **"Revert to..."** in the Git menu.
