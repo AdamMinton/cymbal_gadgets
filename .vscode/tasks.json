@@ -4,13 +4,7 @@
     {
       "label": "Start Looker MCP (NPX)",
       "type": "shell",
-      "command": "lsof -t -i:5000 | xargs kill -9 2>/dev/null || true; npx @toolbox-sdk/server --prebuilt=looker,looker-dev --mcp-prm-file ${workspaceFolder}/.vscode/mcp-prm.json --toolbox-url http://127.0.0.1:5000/mcp",
-      "options": {
-        "env": {
-          "LOOKER_BASE_URL": "https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app",
-          "LOOKER_USE_CLIENT_OAUTH": "true"
-        }
-      },
+      "command": "lsof -t -i:5000 | xargs kill -9 2>/dev/null || true; LOOKER_BASE_URL=https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app LOOKER_USE_CLIENT_OAUTH=true npx @toolbox-sdk/server --prebuilt=looker,looker-dev --mcp-prm-file ${workspaceFolder}/.vscode/mcp-prm.json --toolbox-url http://127.0.0.1:5000/mcp",
       "runOptions": {
         "runOn": "folderOpen"
       },
