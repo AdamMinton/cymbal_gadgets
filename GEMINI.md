@@ -2,7 +2,7 @@
 
 ## Looker Project Specification
 - **Instance URL:** https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app
-- **Project ID:** cymbal_gadgets
+- **Project ID:** demo_cg5839
 
 ## Core Development Principles
 - **LookML Best Practices:** Always consult available Looker skills and documentation for instructions on creating and optimizing LookML.
@@ -12,9 +12,3 @@
 
 ## Git & Deployment Workflow
 - **Commits:** Create and push commits often. Aim to commit after the completion of every individual feature or logical change when the user confirms it's completed.
-- **IDE Syncing:** After pushing changes via the CLI, the Looker IDE will be out of sync. You must instruct the user to perform the following steps to see the updates in the Looker UI:
-    1. Open the project in the Looker instance.
-    2. Click **"Revert to..."** in the Git menu.
-    3. Select **"Revert uncommitted changes"**. 
-    4. Select **"Pull From.."** and then select **"Pull from Remote"**
-    *Note: This allows the IDE to pull in the remote changes created by the CLI.*
