@@ -1,0 +1,30 @@
+{
+    "mcpServers": {
+        "bigquery": {
+            "command": "/usr/local/google/home/adamminton/mcp/toolbox",
+            "args": [
+                "--stdio",
+                "--prebuilt",
+                "bigquery",
+                "--user-agent-metadata",
+                "gemini-cli"
+            ],
+            "env": {
+                "BIGQUERY_LOCATION": "US",
+                "BIGQUERY_PROJECT": "adamminton-sandbox"
+            },
+            "excludeTools": [
+                "analyze_contribution",
+                "ask_data_insights",
+                "forecast"
+            ]
+        },
+        "Looker": {
+            "serverUrl": "http://127.0.0.1:5000/mcp",
+            "oauth": {
+                "enabled": true,
+                "clientId": "antigravity-cli"
+            }
+        }
+    }
+}
