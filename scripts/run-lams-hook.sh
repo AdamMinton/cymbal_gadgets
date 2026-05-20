@@ -17,6 +17,7 @@ input=$(cat)
 
 # Parse critical metadata keys from the input payload
 transcriptPath=$(echo "$input" | jq -r '.transcriptPath // empty')
+workspace_path=$(echo "$input" | jq -r '.workspacePaths[0] // empty')
 
 # Proceed with parsing only if we have a valid transcript path
 if [ -n "$transcriptPath" ] && [ -f "$transcriptPath" ]; then
@@ -47,8 +48,26 @@ if [ -n "$transcriptPath" ] && [ -f "$transcriptPath" ]; then
 
   # If files were edited, perform the LAMS validation
   if [ -n "$edited_files" ]; then
+    # Load NVM to ensure we have access to Node/LAMS
+    export NVM_DIR="$HOME/.nvm"
+    if [ -s "$NVM_DIR/nvm.sh" ]; then
+      . "$NVM_DIR/nvm.sh"
+    fi
+
+    # Change to workspace directory to ensure LAMS finds the project files
+    if [ -n "$workspace_path" ] && [ -d "$workspace_path" ]; then
+      cd "$workspace_path"
+    fi
+
     # Run the local LAMS installation and capture all stdout and stderr
     lams_output=$(lams 2>&1)
+    lams_exit_code=$?
+
+    if [ $lams_exit_code -eq 127 ]; then
+      final_message="❌ LAMS hook error: 'lams' command not found. Please ensure LAMS is installed and in PATH."
+      jq -n --arg msg "$final_message" '{ "injectSteps": [ { "userMessage": $msg } ] }'
+      exit 0
+    fi
     
     # Filter the LAMS output for errors denoted by the cross emoji
     all_errors=$(echo "$lams_output" | grep '❌' || true)
