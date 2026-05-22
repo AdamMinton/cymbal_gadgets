@@ -162,6 +162,40 @@ React 18+ root mounting can conflict with older Looker container wrappers.
 If a feature fails with "Missing capability", check `manifest.lkml`.
 *   **Action**: You must explicitly declare entitlements in the Looker project manifest.
 
+### 🚨 Sandboxed Iframe & Bundling Gotchas
+
+#### 1. DOM Mounting Race Conditions (React Error #299)
+* **Problem**: Looker loads the compiled `bundle.js` script and executes it synchronously before the browser has finished parsing and appending the `<div id="root"></div>` mounting container to the DOM, returning `null` and crashing React with `createRoot(): Target container is not a DOM element.`
+* **Solution**: Implement a robust DOM ready-state checker inside `main.tsx` / `index.tsx`. If the DOM is already interactive, mount React immediately; otherwise, defer mounting by listening to the `DOMContentLoaded` event. 
+* **Self-Healing Container Fallback**: To be completely host-agnostic, write a fallback that dynamically creates a `div` element with `id="root"`, appends it directly to `document.body` at runtime, and mounts React onto it if it is missing from the host markup.
+
+#### 2. Browser Silent ESM Script Blockage (Uncaught SyntaxError)
+* **Problem**: Looker's iframe sandbox script injector appends standard `<script>` tags *without* `type="module"` support. If Vite compiles `bundle.js` using default ES module (ESM) syntax (containing `import` or `export`), the browser rejects it, crashing execution silently with no visible errors on screen.
+* **Solution**: Force Rollup inside `vite.config.ts` to bundle the production output into a self-executing **IIFE (Immediately Invoked Function Expression)** format (`format: 'iife'`, `name: 'MyDashboard'`). This compiles all module syntax away, ensuring 100% loading compatibility inside standard script tags.
+
+#### 3. Recharts Flex Container Zero-Width Collapse
+* **Problem**: Recharts `<ResponsiveContainer>` requires its parent element to have a strictly defined width to compute layouts. When nested inside CSS Flexbox grids inside sandboxed iframes, the browser collapses the parent container's width to exactly `0px`, rendering the charts completely invisible even if the underlying API queries run successfully (200 OK).
+* **Solution**: Force an explicit style **`width="100%"`** (or `style={{ width: '100%' }}`) on the direct parent Box wrapping the Recharts `<ResponsiveContainer>` element.
+
+#### 4. Iframe Viewport Height Clipping & Scroll Lockages
+* **Problem**: Looker iframe host sandboxes disable scrolling (`overflow: hidden`) and lock height to the viewport, completely clipping off-screen metrics and charts below the fold.
+* **Solution**: Lock the React app's root wrapper height and activate vertical scrolling *inside* the iframe container itself:
+  ```css
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  ```
+
+#### 5. Looker Component Card Auto-Stretched Space Inflation
+* **Problem**: Direct child `Card` components (like filters panels) stretch to fill the entire vertical `100vh` height of the scrollable container, creating a massive blank white gap at the top of the screen.
+* **Cause**: The main wrapper extends a library `<Box>` component which acts as a CSS Flex container with stretch layout properties enabled.
+* **Solution**: Redefine the main layout container as a standard HTML **`div`** (`styled.div`) instead of a library Box to enforce normal block-level flow. Also, explicitly inject **`height: auto !important;`** inside custom styled Card definitions to break default library Card stretching rules.
+
+#### 6. Looker API Query Parameters Schema (`view` vs `explore`)
+* **Problem**: TypeScript compilation fails when using `explore: 'my_explore'` inside the SDK's `run_inline_query` payload.
+* **Fact**: In Looker's `IWriteQuery` API model payload, the explore name must strictly be mapped to the key **`view`** (e.g. `view: 'transactions'`), not `explore`. Reverting to `view` satisfies the TypeScript compiler.
+
 ## 📁 Additional Resources & Scripts
 
 This skill folder contains additional resources to assist you:
