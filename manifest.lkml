@@ -17,17 +17,3 @@ constant: star_rating_html {
 #LAMS
 #rule: W1{} # Block indentation
 #rule: K1{} # Primary key naming
-
-application: cymbal_executive_dashboard {
-  label: "Cymbal Executive Command Center"
-  file: "extensions/bundle.js"
-  mount_points: {
-    standalone: yes
-  }
-  entitlements: {
-    use_form_submit: yes
-    navigation: yes
-    core_api_methods: ["run_inline_query", "me"]
-  }
-}
-
