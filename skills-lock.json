@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "looker-extension": {
+      "source": "sso://user/adamminton/looker-skills",
+      "sourceType": "git",
+      "skillPath": "looker-extension/SKILL.md",
+      "computedHash": "f9deb06bbb6926f96e3096e3a6dc5a7b4f181f92f54e4f9ffc25cfdb8f91e980"
+    },
     "lookml-access-grants": {
       "source": "lkrdev/lookml_skills",
       "sourceType": "github",
