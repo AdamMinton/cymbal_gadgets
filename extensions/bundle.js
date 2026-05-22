@@ -1176,9 +1176,6 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   overflow-x: hidden;
   box-sizing: border-box;
 `,ZIe=ue(t1)`
-  position: sticky;
-  top: 0;
-  z-index: 100;
   margin-bottom: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
