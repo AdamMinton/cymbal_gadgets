@@ -1,4 +1,3 @@
-.gemini/**
-.env
-.vscode/**
-.agents/**
+.antigravitycli/**
+.jetskicli/**
+react-extension

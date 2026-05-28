@@ -17,3 +17,20 @@ constant: star_rating_html {
 #LAMS
 #rule: W1{} # Block indentation
 #rule: K1{} # Primary key naming
+
+application: cymbal_executive_extension {
+  label: "Cymbal Gadgets Executive Command Center"
+  file: "extensions/bundle.js"
+
+  mount_points: {
+    standalone: yes
+  }
+
+  entitlements: {
+    use_form_submit: yes
+    navigation: yes
+    new_window: yes
+    use_clipboard: yes
+    core_api_methods: ["me", "run_inline_query"]
+  }
+}

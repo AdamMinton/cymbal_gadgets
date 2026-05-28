@@ -1,0 +1,6 @@
+{
+    "looker.projectId": "demo_cg5839",
+    "looker.instanceURL": "https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app",
+    "looker.skillsInstallPath": ".agents/skills",
+    "looker.oauthClientId": "looker-extension"
+}
