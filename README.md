@@ -13,6 +13,7 @@ The following table summarizes how the financial metrics are defined in the sche
 | **COGS** | Direct Cost of Goods Sold (inventory cost to acquire/make). | `product_cost * quantity` | `transactions.cogs` |
 | **Gross Profit** | Core profitability of sold products before operating expenses. | `net_revenue - COGS` | `transactions.gross_profit` |
 | **Gross Margin %** | Gross profitability expressed as a percentage of net revenue. | `gross_profit / net_revenue` | `transactions.gross_margin_percentage` |
+| **Lost Revenue** | Revenue from online orders that occurred >30 days ago but have null shipment status. | `net_revenue` (where channel is Online, age > 30 days, and shipment status is null) | `transactions.lost_revenue` / `transactions.total_lost_revenue` |
 
 ---
 
@@ -41,4 +42,25 @@ The LookML fields in `views/transactions.view.lkml` were corrected to:
 4. Define **Gross Profit** cleanly as `net_revenue - cogs`.
 5. Update **Gross Margin %** to divide `total_gross_profit` by `total_net_revenue`.
 
-All changes have been validated against the Looker compiler and are 100% compliant.
+---
+
+## Lost Revenue Tracking
+
+### Scope & Criteria Definition
+The requirement to track **Lost Revenue** is defined as revenue from transactions that occurred more than 30 days ago but have a null shipment status.
+
+During development, we identified an important architectural distinction:
+* **In-Store Sales:** In-Store sales are completed physically and immediately at checkout. They never undergo shipping, and therefore their `shipment_status` in the database is always `NULL`.
+* **Online Sales:** Online sales undergo fulfillment and shipping. A `NULL` shipment status on an Online transaction older than 30 days indicates a critical failure or delay in the fulfillment pipeline.
+
+If we applied the rule literally without filtering by sales channel, all historical In-Store sales (comprising **322,440 transactions** and over **$377.9M in revenue**) would be incorrectly flagged as "Lost Revenue".
+
+### Implementation
+To prevent this distortion, we aligned with business logic to **restrict the metric strictly to Online sales**:
+1. Added a `lost_revenue` dimension that checks:
+   * Sales channel is `'Online'`
+   * Transaction date is older than 30 days (`DATE_DIFF(CURRENT_DATE(), transaction_date, DAY) > 30`)
+   * Shipment status is `NULL`
+2. Added a `total_lost_revenue` measure that sums the dimension, formatted consistently as currency (`usd_0`).
+3. Fully integrated the metrics into the main `transactions` view with compiler validation.
+

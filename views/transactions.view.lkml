@@ -246,6 +246,16 @@ view: transactions {
     value_format_name: usd
   }
 
+  dimension: lost_revenue {
+    group_label: "Financials"
+    label: "Lost Revenue"
+    description: "Revenue from Online transactions that occurred more than 30 days ago but have a null shipment status."
+    type: number
+    # Restricting to Online transactions because In-Store transactions never have shipment status
+    sql: CASE WHEN ${saleschannelname} = 'Online' AND DATE_DIFF(CURRENT_DATE(), ${transaction_date}, DAY) > 30 AND ${shipment_status} IS NULL THEN ${net_revenue} ELSE 0 END ;;
+    value_format_name: usd
+  }
+
   # --- Measures ---
   measure: count {
     label: "Total Transactions"
@@ -323,6 +333,16 @@ view: transactions {
     type: number
     sql: 1.0 * ${total_gross_profit} / NULLIF(${total_net_revenue}, 0) ;;
     value_format_name: percent_1
+  }
+
+  measure: total_lost_revenue {
+    group_label: "Financial Measures"
+    label: "Total Lost Revenue"
+    description: "Total Lost Revenue from Online transactions that occurred more than 30 days ago but have a null shipment status."
+    type: sum
+    sql: ${lost_revenue} ;;
+    value_format_name: usd_0
+    drill_fields: [transaction_details*]
   }
 
   measure: unique_customers {
