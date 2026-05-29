@@ -64,3 +64,13 @@ To prevent this distortion, we aligned with business logic to **restrict the met
 2. Added a `total_lost_revenue` measure that sums the dimension, formatted consistently as currency (`usd_0`).
 3. Fully integrated the metrics into the main `transactions` view with compiler validation.
 
+---
+
+## Order Shipment Status & Metrics
+
+### Delayed Order Count Correction
+During the QA review of the project, a discrepancy was identified in the order count metrics:
+* The measure `delayed_order_count` (which filters transactions for `shipment_status: "Delayed"`) had an incorrect label of `"Cancelled Order Count"`.
+* Since there is no `"Cancelled"` status in `shipment_status` (the values in the database are strictly `NULL`, `"Delivered"`, and `"Delayed"`), the label was corrected to `"Delayed Order Count"`, and appropriate descriptions/comments were added to ensure clarity and accurate reporting.
+
+

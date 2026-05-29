@@ -365,8 +365,10 @@ view: transactions {
     sql: ${TABLE}.distribution_center_city ;;
   }
 
+  # Count of transactions that are currently delayed
   measure: delayed_order_count {
-    label: "Cancelled Order Count"
+    label: "Delayed Order Count"
+    description: "Total number of orders with a delayed shipment status."
     type: count
     filters: [shipment_status: "Delayed"]
   }
