@@ -208,14 +208,42 @@ view: transactions {
     sql: ${TABLE}.taxamount ;;
   }
 
-  # Gross Profit
+  # --- Financial Dimensions ---
+
+  dimension: gross_revenue {
+    group_label: "Financials"
+    label: "Gross Revenue"
+    description: "Gross Revenue before discounts (Product Master Price * Quantity)"
+    type: number
+    sql: ${product_master_price} * ${quantity} ;;
+    value_format_name: usd
+  }
+
+  dimension: net_revenue {
+    group_label: "Financials"
+    label: "Net Revenue"
+    description: "Net Revenue after discounts (Gross Revenue - Discount Amount)"
+    type: number
+    sql: ${gross_revenue} - ${discountamount} ;;
+    value_format_name: usd
+  }
+
+  dimension: cogs {
+    group_label: "Financials"
+    label: "COGS"
+    description: "Cost of Goods Sold (Product Cost * Quantity)"
+    type: number
+    sql: ${product_cost} * ${quantity} ;;
+    value_format_name: usd
+  }
+
   dimension: gross_profit {
     group_label: "Financials"
     label: "Gross Profit"
-    description: "Total Price minus Product Cost"
+    description: "Net Profit before operating expenses (Net Revenue - COGS)"
     type: number
+    sql: ${net_revenue} - ${cogs} ;;
     value_format_name: usd
-    sql: ${totalprice} - (${product_cost} * ${quantity}) ;;
   }
 
   # --- Measures ---
@@ -227,14 +255,45 @@ view: transactions {
 
   measure: total_revenue {
     label: "Total Revenue"
-    description: "Sum of total price for all transactions."
+    description: "Sum of total price for all transactions. Note: Includes tax and shipping."
     type: sum
     sql: ${totalprice} ;;
     value_format_name: usd_0
     drill_fields: [transaction_details*]
   }
 
+  measure: total_gross_revenue {
+    group_label: "Financial Measures"
+    label: "Total Gross Revenue"
+    description: "Total Gross Revenue before discounts"
+    type: sum
+    sql: ${gross_revenue} ;;
+    value_format_name: usd_0
+    drill_fields: [transaction_details*]
+  }
+
+  measure: total_net_revenue {
+    group_label: "Financial Measures"
+    label: "Total Net Revenue"
+    description: "Total Net Revenue after discounts"
+    type: sum
+    sql: ${net_revenue} ;;
+    value_format_name: usd_0
+    drill_fields: [transaction_details*]
+  }
+
+  measure: total_cogs {
+    group_label: "Financial Measures"
+    label: "Total COGS"
+    description: "Total Cost of Goods Sold"
+    type: sum
+    sql: ${cogs} ;;
+    value_format_name: usd_0
+    drill_fields: [transaction_details*]
+  }
+
   measure: total_gross_profit {
+    group_label: "Financial Measures"
     label: "Total Gross Profit"
     description: "Sum of gross profit across all transactions."
     type: sum
@@ -258,10 +317,11 @@ view: transactions {
   }
 
   measure: gross_margin_percentage {
+    group_label: "Financial Measures"
     label: "Gross Margin %"
-    description: "Total Gross Profit divided by Total Revenue."
+    description: "Total Gross Profit divided by Total Net Revenue."
     type: number
-    sql: 1.0 * ${total_gross_profit} / NULLIF(${total_revenue}, 0) ;;
+    sql: 1.0 * ${total_gross_profit} / NULLIF(${total_net_revenue}, 0) ;;
     value_format_name: percent_1
   }
 
