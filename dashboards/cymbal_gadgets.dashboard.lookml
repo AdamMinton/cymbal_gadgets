@@ -237,7 +237,7 @@
     explore: transactions
     type: looker_bar
     fields: [marketing_campaign_impact.campaignname, marketing_campaign_impact.total_campaign_impact,
-      marketing_campaign_impact.count]
+      marketing_campaign_impact.count_marketing_campaign_impact]
     sorts: [marketing_campaign_impact.total_campaign_impact desc]
     limit: 10
     column_limit: 50
@@ -272,7 +272,7 @@
             id: marketing_campaign_impact.total_campaign_impact, name: Total Campaign
               Impact}], showLabels: true, showValues: true, unpinAxis: false, tickDensity: default,
         tickDensityCustom: 5, type: linear}, {label: '', orientation: bottom, series: [
-          {axisId: marketing_campaign_impact.count, id: marketing_campaign_impact.count,
+          {axisId: marketing_campaign_impact.count_marketing_campaign_impact, id: marketing_campaign_impact.count_marketing_campaign_impact,
             name: Total Campaign Events}], showLabels: true, showValues: true, unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
     x_axis_zoom: true

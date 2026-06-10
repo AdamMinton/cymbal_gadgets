@@ -257,8 +257,9 @@ view: transactions {
   }
 
   # --- Measures ---
-  measure: count {
-    label: "Count"
+  measure: count_transactions {
+    label: "Count Transactions"
+    description: "Count of total transactions."
     type: count
     drill_fields: [transaction_details*]
   }

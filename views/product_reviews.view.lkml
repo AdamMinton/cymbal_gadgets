@@ -62,8 +62,9 @@ view: product_reviews {
   }
 
   # --- Measures ---
-  measure: count {
-    label: "Count"
+  measure: count_product_reviews {
+    label: "Count Product Reviews"
+    description: "Count of customer product reviews."
     type: count
     drill_fields: [review_details*]
   }
