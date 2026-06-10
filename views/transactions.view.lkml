@@ -208,52 +208,14 @@ view: transactions {
     sql: ${TABLE}.taxamount ;;
   }
 
-  # --- Financial Dimensions ---
-
-  dimension: gross_revenue {
-    group_label: "Financials"
-    label: "Gross Revenue"
-    description: "Gross Revenue before discounts (Product Master Price * Quantity)"
-    type: number
-    sql: ${product_master_price} * ${quantity} ;;
-    value_format_name: usd
-  }
-
-  dimension: net_revenue {
-    group_label: "Financials"
-    label: "Net Revenue"
-    description: "Net Revenue after discounts (Gross Revenue - Discount Amount)"
-    type: number
-    sql: ${gross_revenue} - ${discountamount} ;;
-    value_format_name: usd
-  }
-
-  dimension: cogs {
-    group_label: "Financials"
-    label: "COGS"
-    description: "Cost of Goods Sold (Product Cost * Quantity)"
-    type: number
-    sql: ${product_cost} * ${quantity} ;;
-    value_format_name: usd
-  }
-
+  # Gross Profit
   dimension: gross_profit {
     group_label: "Financials"
     label: "Gross Profit"
-    description: "Net Profit before operating expenses (Net Revenue - COGS)"
+    description: "Total Price minus Product Cost"
     type: number
-    sql: ${net_revenue} - ${cogs} ;;
     value_format_name: usd
-  }
-
-  dimension: lost_revenue {
-    group_label: "Financials"
-    label: "Lost Revenue"
-    description: "Revenue from Online transactions that occurred more than 30 days ago but have a null shipment status."
-    type: number
-    # Restricting to Online transactions because In-Store transactions never have shipment status
-    sql: CASE WHEN ${saleschannelname} = 'Online' AND DATE_DIFF(CURRENT_DATE(), ${transaction_date}, DAY) > 30 AND ${shipment_status} IS NULL THEN ${net_revenue} ELSE 0 END ;;
-    value_format_name: usd
+    sql: ${totalprice} - (${product_cost} * ${quantity}) ;;
   }
 
   # --- Measures ---
@@ -265,45 +227,14 @@ view: transactions {
 
   measure: total_revenue {
     label: "Total Revenue"
-    description: "Sum of total price for all transactions. Note: Includes tax and shipping."
+    description: "Sum of total price for all transactions."
     type: sum
     sql: ${totalprice} ;;
     value_format_name: usd_0
     drill_fields: [transaction_details*]
   }
 
-  measure: total_gross_revenue {
-    group_label: "Financial Measures"
-    label: "Total Gross Revenue"
-    description: "Total Gross Revenue before discounts"
-    type: sum
-    sql: ${gross_revenue} ;;
-    value_format_name: usd_0
-    drill_fields: [transaction_details*]
-  }
-
-  measure: total_net_revenue {
-    group_label: "Financial Measures"
-    label: "Total Net Revenue"
-    description: "Total Net Revenue after discounts"
-    type: sum
-    sql: ${net_revenue} ;;
-    value_format_name: usd_0
-    drill_fields: [transaction_details*]
-  }
-
-  measure: total_cogs {
-    group_label: "Financial Measures"
-    label: "Total COGS"
-    description: "Total Cost of Goods Sold"
-    type: sum
-    sql: ${cogs} ;;
-    value_format_name: usd_0
-    drill_fields: [transaction_details*]
-  }
-
   measure: total_gross_profit {
-    group_label: "Financial Measures"
     label: "Total Gross Profit"
     description: "Sum of gross profit across all transactions."
     type: sum
@@ -327,22 +258,11 @@ view: transactions {
   }
 
   measure: gross_margin_percentage {
-    group_label: "Financial Measures"
     label: "Gross Margin %"
-    description: "Total Gross Profit divided by Total Net Revenue."
+    description: "Total Gross Profit divided by Total Revenue."
     type: number
-    sql: 1.0 * ${total_gross_profit} / NULLIF(${total_net_revenue}, 0) ;;
+    sql: 1.0 * ${total_gross_profit} / NULLIF(${total_revenue}, 0) ;;
     value_format_name: percent_1
-  }
-
-  measure: total_lost_revenue {
-    group_label: "Financial Measures"
-    label: "Total Lost Revenue"
-    description: "Total Lost Revenue from Online transactions that occurred more than 30 days ago but have a null shipment status."
-    type: sum
-    sql: ${lost_revenue} ;;
-    value_format_name: usd_0
-    drill_fields: [transaction_details*]
   }
 
   measure: unique_customers {
@@ -365,10 +285,8 @@ view: transactions {
     sql: ${TABLE}.distribution_center_city ;;
   }
 
-  # Count of transactions that are currently delayed
   measure: delayed_order_count {
-    label: "Delayed Order Count"
-    description: "Total number of orders with a delayed shipment status."
+    label: "Cancelled Order Count"
     type: count
     filters: [shipment_status: "Delayed"]
   }
