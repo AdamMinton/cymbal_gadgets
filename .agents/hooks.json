@@ -1,0 +1,11 @@
+{
+  "run-lams": {
+    "PostInvocation": [
+      {
+        "type": "command",
+        "command": "input=$(cat); workspace_path=$(echo \"$input\" | jq -r '.workspacePaths[0]'); echo \"$input\" | bash \"$workspace_path/scripts/run-lams-hook.sh\"",
+        "timeout": 60
+      }
+    ]
+  }
+}

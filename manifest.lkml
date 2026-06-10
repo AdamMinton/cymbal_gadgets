@@ -14,6 +14,3 @@ constant: star_rating_html {
   </div>"
 }
 
-#LAMS
-#rule: W1{} # Block indentation
-#rule: K1{} # Primary key naming

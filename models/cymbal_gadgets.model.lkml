@@ -13,17 +13,17 @@ explore: transactions {
   label: "🛍️ Cymbal Gadgets: Transactions & Sales"
   description: "Core explore for analyzing transactions, marketing impact, and product reviews."
 
+  access_filter: {
+    field: transactions.store_region
+    user_attribute: store_region
+  }
+
   join: product_reviews {
     sql_on: ${transactions.productid} = ${product_reviews.productid} ;;
     relationship: many_to_many
   }
   join: marketing_campaign_impact {
-    sql_on: ${transactions.pk1_sales_id} = ${marketing_campaign_impact.pk1_sales_id} ;;
+    sql_on: ${transactions.salesid} = ${marketing_campaign_impact.salesid} ;;
     relationship: one_to_many
   }
-  join: customer_spending_stats {
-    sql_on: ${transactions.customerid} = ${customer_spending_stats.pk1_customer_id} ;;
-    relationship: many_to_one
-  }
 }
- 
