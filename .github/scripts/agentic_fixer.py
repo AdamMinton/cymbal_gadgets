@@ -43,14 +43,23 @@ def get_issue_thread(issue_number):
 
 def post_issue_comment(issue_number, message):
     """Posts a comment back to the GitHub issue."""
+    print(f"Attempting to post comment for issue {issue_number}...")
     try:
-        subprocess.run(
+        print(f"Message length: {len(message)} characters.")
+        result = subprocess.run(
             ["gh", "issue", "comment", str(issue_number), "--body", message],
+            capture_output=True,
+            text=True,
             check=True
         )
         print("Successfully posted comment to GitHub Issue.")
+        print(f"gh output: {result.stdout.strip()}")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to post comment to GitHub Issue. gh CLI failed with exit code {e.returncode}.")
+        print(f"gh stdout: {e.stdout.strip()}")
+        print(f"gh stderr: {e.stderr.strip()}")
     except Exception as e:
-        print(f"Failed to post comment to GitHub Issue: {e}")
+        print(f"Failed to post comment to GitHub Issue due to unexpected exception: {e}")
 
 def sync_with_remote(branch_name, message):
     """Commits local changes and pushes to the remote branch."""
