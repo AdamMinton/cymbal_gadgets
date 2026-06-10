@@ -12,7 +12,6 @@ permissions:
 jobs:
   fix-lookml:
     if: |
-      contains(github.event.issue.labels.*.name, 'agent-fix') &&
       github.event.comment.user.login != 'github-actions[bot]' &&
       github.event.comment.user.login != 'looker-agent[bot]' &&
       contains(github.event.comment.body, '@looker-agent')
