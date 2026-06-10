@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "Looker": {
+      "httpUrl": "https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app/mcp",
+      "oauth": {
+        "clientId": "gemini-cli"
+      }
+    },
+    "adk-docs-mcp": {
+      "args": [
+        "--from",
+        "mcpdoc",
+        "mcpdoc",
+        "--urls",
+        "AgentDevelopmentKit:https://adk.dev/llms.txt",
+        "--transport",
+        "stdio"
+      ],
+      "command": "uvx"
+    }
+  }
+}
