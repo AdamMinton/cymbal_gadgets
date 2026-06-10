@@ -63,7 +63,7 @@ view: product_reviews {
 
   # --- Measures ---
   measure: count {
-    label: "Total Reviews"
+    label: "Count"
     type: count
     drill_fields: [review_details*]
   }
@@ -78,7 +78,7 @@ view: product_reviews {
   }
 
   measure: count_positive_reviews {
-    label: "Total Positive Reviews"
+    label: "Count Positive Reviews"
     description: "Count of reviews with a rating of 4 or 5."
     type: count
     filters: [is_positive_review: "Yes"]
