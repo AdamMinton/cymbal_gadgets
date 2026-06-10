@@ -107,7 +107,7 @@ This will spin up a GitHub Actions runner, check out the branch, and let the age
 
 ### Setup and Configuration
 The integration uses a private GitHub App installed on the repository:
-1. **GitHub Action Workflow:** Configured in [.github/workflows/agentic_lookml_fixer.yml](file:///.github/workflows/agentic_lookml_fixer.yml) which executes on `issue_comment: created` events.
+1. **GitHub Action Workflow:** Configured in [.github/workflows/agentic_lookml_fixer.yml](file:///.github/workflows/agentic_lookml_fixer.yml) which executes on `issue_comment: created` events, specifically when the comment body contains a mention of `@looker-agent`.
 2. **Python Agent script:** Implemented in [.github/scripts/agentic_fixer.py](file:///.github/scripts/agentic_fixer.py).
 3. **Repository Secrets:**
    - `GEMINI_API_KEY`: API key for model reasoning.
