@@ -67,7 +67,7 @@ view: marketing_campaign_impact {
 
   # --- Measures ---
   measure: count {
-    label: "Total Campaign Events"
+    label: "Count"
     type: count
     drill_fields: [campaign_details*]
   }

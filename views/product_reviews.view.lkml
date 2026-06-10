@@ -63,7 +63,7 @@ view: product_reviews {
 
   # --- Measures ---
   measure: count {
-    label: "Total Reviews"
+    label: "Count"
     type: count
     drill_fields: [review_details*]
   }
