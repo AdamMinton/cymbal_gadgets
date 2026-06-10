@@ -18,10 +18,18 @@ jobs:
       (github.event_name == 'issue_comment' && contains(github.event.issue.labels.*.name, 'agent-fix') && github.event.comment.user.login != 'github-actions[bot]')
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.LOOKER_AGENT_APP_ID }}
+          private-key: ${{ secrets.LOOKER_AGENT_APP_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,8 +42,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "Looker-Agent-Service"
-          git config --global user.email "looker-agent-service@looker.app"
+          git config --global user.name "looker-agent[bot]"
+          git config --global user.email "${{ secrets.LOOKER_AGENT_APP_ID }}+looker-agent[bot]@users.noreply.github.com"
 
       - name: Create or checkout branch
         run: |
@@ -58,13 +66,13 @@ jobs:
           LOOKERSDK_BASE_URL: ${{ secrets.LOOKERSDK_BASE_URL }}
           LOOKERSDK_CLIENT_ID: ${{ secrets.LOOKERSDK_CLIENT_ID }}
           LOOKERSDK_CLIENT_SECRET: ${{ secrets.LOOKERSDK_CLIENT_SECRET }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: python .github/scripts/agentic_fixer.py
 
       - name: Open Pull Request
         if: success()
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           BRANCH_NAME="agent-fix/issue-${{ github.event.issue.number }}"
           if gh pr list --head "$BRANCH_NAME" --base master --json number | grep -q '"number":'; then
