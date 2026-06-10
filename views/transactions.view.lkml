@@ -258,7 +258,7 @@ view: transactions {
 
   # --- Measures ---
   measure: count_transactions {
-    label: "Count Transactions"
+    label: "count_transactions"
     description: "Count of total transactions."
     type: count
     drill_fields: [transaction_details*]
@@ -347,7 +347,7 @@ view: transactions {
   }
 
   measure: unique_customers {
-    label: "Total Unique Customers"
+    label: "unique_customers"
     type: count_distinct
     sql: ${customerid} ;;
   }
@@ -368,7 +368,7 @@ view: transactions {
 
   # Count of transactions that are currently delayed
   measure: delayed_order_count {
-    label: "Delayed Order Count"
+    label: "delayed_order_count"
     description: "Total number of orders with a delayed shipment status."
     type: count
     filters: [shipment_status: "Delayed"]
