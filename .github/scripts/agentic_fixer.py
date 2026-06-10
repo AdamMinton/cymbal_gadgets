@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import asyncio
 import subprocess
 import looker_sdk
@@ -8,10 +9,48 @@ from google.antigravity import Agent, LocalAgentConfig, CapabilitiesConfig
 
 MAX_ATTEMPTS = 3
 
-def get_issue_context():
-    title = os.environ.get("ISSUE_TITLE", "")
-    body = os.environ.get("ISSUE_BODY", "")
-    return f"Issue Title: {title}\n\nIssue Body: {body}"
+def get_issue_thread(issue_number):
+    """Fetches the complete issue conversation (description + comments) using gh CLI."""
+    try:
+        result = subprocess.run(
+            ["gh", "issue", "view", str(issue_number), "--json", "title,body,comments"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        data = json.loads(result.stdout)
+        title = data.get("title", "")
+        body = data.get("body", "")
+        comments = data.get("comments", [])
+        
+        thread = f"Issue Title: {title}\n\nOriginal Issue Description:\n{body}\n"
+        
+        if comments:
+            thread += "\n--- Conversation History ---\n"
+            for comment in comments:
+                author = comment.get("author", {}).get("login", "unknown")
+                comment_body = comment.get("body", "")
+                if author == "github-actions[bot]":
+                    thread += f"Agent: {comment_body}\n\n"
+                else:
+                    thread += f"User ({author}): {comment_body}\n\n"
+        return thread
+    except Exception as e:
+        print(f"Failed to fetch issue thread via gh CLI: {e}")
+        title = os.environ.get("ISSUE_TITLE", "")
+        body = os.environ.get("ISSUE_BODY", "")
+        return f"Issue Title: {title}\n\nIssue Body: {body}"
+
+def post_issue_comment(issue_number, message):
+    """Posts a comment back to the GitHub issue."""
+    try:
+        subprocess.run(
+            ["gh", "issue", "comment", str(issue_number), "--body", message],
+            check=True
+        )
+        print("Successfully posted comment to GitHub Issue.")
+    except Exception as e:
+        print(f"Failed to post comment to GitHub Issue: {e}")
 
 def sync_with_remote(branch_name, message):
     """Commits local changes and pushes to the remote branch."""
@@ -50,8 +89,11 @@ def validate_in_looker(sdk: looker_sdk.methods40.Looker40SDK, project_id: str, b
 
 async def main():
     project_id = "demo_cg5839"
-    branch_name = f"agent-fix/issue-{os.environ.get('ISSUE_NUMBER', '0')}"
-    issue_context = get_issue_context()
+    issue_number = os.environ.get("ISSUE_NUMBER", "0")
+    branch_name = f"agent-fix/issue-{issue_number}"
+    
+    print(f"Fetching conversation thread for Issue #{issue_number}...")
+    issue_context = get_issue_thread(issue_number)
     
     # Initialize Looker SDK (It automatically reads LOOKERSDK_* env vars)
     print("Initializing Looker SDK...")
@@ -64,12 +106,13 @@ async def main():
             "You are an expert LookML developer and architecture expert. "
             "Your task is to fix LookML files based on a GitHub issue report. "
             "You have full capabilities to read and write files locally. "
-            "Read the necessary .lkml files, apply your fixes, and provide a summary of your changes."
+            "Read the necessary .lkml files, apply your fixes, and respond with a summary of your changes."
         ),
         capabilities=CapabilitiesConfig()  # Enables tool calling (read_file, write_file, etc.)
     )
     
     validation_errors = []
+    agent_explanation = ""
     
     async with Agent(config) as agent:
         for attempt in range(1, MAX_ATTEMPTS + 1):
@@ -89,10 +132,11 @@ async def main():
                 
             print("Prompting agent to apply fixes...")
             response = await agent.chat(prompt)
-            print(f"Agent response:\n{await response.text()}\n")
+            agent_explanation = await response.text()
+            print(f"Agent response:\n{agent_explanation}\n")
             
             print("Syncing changes with remote repository...")
-            commit_message = f"Agent fix attempt {attempt} for issue #{os.environ.get('ISSUE_NUMBER', '0')}"
+            commit_message = f"Agent fix attempt {attempt} for issue #{issue_number}"
             sync_with_remote(branch_name, commit_message)
             
             print("Running Looker validation...")
@@ -100,13 +144,28 @@ async def main():
             
             if not validation_errors:
                 print("LookML validation passed successfully!")
+                comment_body = (
+                    f"### Agent Fix Success (Attempt {attempt}/{MAX_ATTEMPTS})\n\n"
+                    f"LookML validation passed successfully!\n\n"
+                    f"**Changes made:**\n{agent_explanation}\n\n"
+                    f"The changes have been pushed to the PR branch."
+                )
+                post_issue_comment(issue_number, comment_body)
                 sys.exit(0)
             else:
                 print(f"Validation failed with {len(validation_errors)} errors.")
                 for err in validation_errors:
                     print(f" - {err.message} (File: {err.file_path})")
                     
-        print(f"Failed to fix LookML after {MAX_ATTEMPTS} attempts.")
+        comment_body = (
+            f"### Agent Fix Failed\n\n"
+            f"I attempted to fix the LookML files {MAX_ATTEMPTS} times, but validation still failed. "
+            f"Here are the remaining validation errors:\n\n"
+        )
+        for err in validation_errors:
+            comment_body += f"- **[{err.file_path}]**: {err.message}\n"
+        comment_body += "\nLast changes made:\n" + agent_explanation
+        post_issue_comment(issue_number, comment_body)
         sys.exit(1)
 
 if __name__ == "__main__":

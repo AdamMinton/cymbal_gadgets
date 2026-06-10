@@ -3,10 +3,19 @@ name: Agentic LookML Fixer
 on:
   issues:
     types: [opened, edited]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   fix-lookml:
-    if: contains(github.event.issue.labels.*.name, 'agent-fix')
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'agent-fix')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.issue.labels.*.name, 'agent-fix') && github.event.comment.user.login != 'github-actions[bot]')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,9 +37,16 @@ jobs:
           git config --global user.name "Looker-Agent-Service"
           git config --global user.email "looker-agent-service@looker.app"
 
-      - name: Create and checkout new branch
+      - name: Create or checkout branch
         run: |
-          git checkout -b agent-fix/issue-${{ github.event.issue.number }}
+          git fetch origin
+          BRANCH_NAME="agent-fix/issue-${{ github.event.issue.number }}"
+          if git show-ref --verify --quiet refs/remotes/origin/$BRANCH_NAME; then
+            git checkout $BRANCH_NAME
+            git pull origin $BRANCH_NAME
+          else
+            git checkout -b $BRANCH_NAME
+          fi
 
       - name: Run Agent Script
         env:
@@ -42,6 +58,7 @@ jobs:
           LOOKERSDK_BASE_URL: ${{ secrets.LOOKERSDK_BASE_URL }}
           LOOKERSDK_CLIENT_ID: ${{ secrets.LOOKERSDK_CLIENT_ID }}
           LOOKERSDK_CLIENT_SECRET: ${{ secrets.LOOKERSDK_CLIENT_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python .github/scripts/agentic_fixer.py
 
       - name: Open Pull Request
@@ -49,8 +66,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create \
-            --title "Fixes #${{ github.event.issue.number }}: ${{ github.event.issue.title }}" \
-            --body "This PR was generated autonomously by the AGY SDK agent. It has successfully passed LookML validation." \
-            --head agent-fix/issue-${{ github.event.issue.number }} \
-            --base master
+          BRANCH_NAME="agent-fix/issue-${{ github.event.issue.number }}"
+          if gh pr list --head "$BRANCH_NAME" --base master --json number | grep -q '"number":'; then
+            echo "PR already exists for branch $BRANCH_NAME. Skipping PR creation."
+          else
+            gh pr create \
+              --title "Fixes #${{ github.event.issue.number }}: ${{ github.event.issue.title }}" \
+              --body "This PR was generated autonomously by the AGY SDK agent. It has successfully passed LookML validation." \
+              --head "$BRANCH_NAME" \
+              --base master
+          fi
