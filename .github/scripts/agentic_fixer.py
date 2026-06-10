@@ -3,7 +3,7 @@ import sys
 import asyncio
 import subprocess
 import looker_sdk
-from looker_sdk import models
+from looker_sdk import models40 as models
 from google.antigravity import Agent, LocalAgentConfig, CapabilitiesConfig
 
 MAX_ATTEMPTS = 3
