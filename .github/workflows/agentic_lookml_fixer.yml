@@ -53,4 +53,4 @@ jobs:
             --title "Fixes #${{ github.event.issue.number }}: ${{ github.event.issue.title }}" \
             --body "This PR was generated autonomously by the AGY SDK agent. It has successfully passed LookML validation." \
             --head agent-fix/issue-${{ github.event.issue.number }} \
-            --base main
+            --base master
