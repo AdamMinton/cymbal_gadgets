@@ -1,8 +1,6 @@
 name: Agentic LookML Fixer
 
 on:
-  issues:
-    types: [opened, edited]
   issue_comment:
     types: [created]
 
@@ -14,8 +12,10 @@ permissions:
 jobs:
   fix-lookml:
     if: |
-      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'agent-fix')) ||
-      (github.event_name == 'issue_comment' && contains(github.event.issue.labels.*.name, 'agent-fix') && github.event.comment.user.login != 'github-actions[bot]')
+      contains(github.event.issue.labels.*.name, 'agent-fix') &&
+      github.event.comment.user.login != 'github-actions[bot]' &&
+      github.event.comment.user.login != 'looker-agent[bot]' &&
+      contains(github.event.comment.body, '@looker-agent')
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token
