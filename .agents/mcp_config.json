@@ -53,18 +53,6 @@
                 "switch_git_branch",
                 "update_project_file"
             ]
-        },
-        "adk-docs-mcp": {
-            "args": [
-                "--from",
-                "mcpdoc",
-                "mcpdoc",
-                "--urls",
-                "AgentDevelopmentKit:https://adk.dev/llms.txt",
-                "--transport",
-                "stdio"
-            ],
-            "command": "uvx"
         }
     }
 }
