@@ -22,3 +22,7 @@ explore: transactions {
     relationship: one_to_many
   }
 }
+
+explore: product_reviews {
+  label: "🛍️ Cymbal Gadgets:Product Reviews"
+}
