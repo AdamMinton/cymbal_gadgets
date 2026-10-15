@@ -8,6 +8,7 @@
 - **LookML Best Practices:** Always consult available Looker skills and documentation for instructions on creating and optimizing LookML.
 - **Looker Validation:** You must run the `dev_mode` and then `validate_project` MCP tool every time a file is updated.
 - **Code Integrity:** Never commit broken code. Ensure all validation checks pass before proceeding to the commit stage.
+- **Local-First File Editing:** Always read, create, and modify LookML files (`.lkml`, `.lookml`) directly on the local filesystem. The VS Code Looker Extension automatically syncs local file changes to the Looker instance—never attempt to use Looker MCP tools to read, create, or update project files or dashboards, and only use the MCP tools listed as enabled in your prompt (such as `dev_mode`, `validate_project`, and `query`).
 
 ## Git & Deployment Workflow
 - **Commits:** Create and push commits often. Aim to commit after the completion of every individual feature or logical change when the user confirms it's completed.

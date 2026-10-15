@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "skills": {
+    "authenticating-looker-cli": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/authenticating-looker-cli/SKILL.md",
+      "computedHash": "54dcab8b1f11df2c3f0f28039bab2466dd310c2fafc6b3d4fd64564d2c12bad6"
+    },
+    "connecting-looker-to-bigquery": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/connecting-looker-to-bigquery/SKILL.md",
+      "computedHash": "fdbef6d164726ed51e457aa3639e3e9efc530198ccafc657b79a77cd281138c7"
+    },
+    "creating-looker-dashboard": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/creating-looker-dashboard/SKILL.md",
+      "computedHash": "ccf46f793109f107cc068fdb80f717c179e16ef698c29eb6d1ea533fe817cfb6"
+    },
+    "creating-lookml-model": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/creating-lookml-model/SKILL.md",
+      "computedHash": "33f263a2906aafa289fb88ecfc990418a22c7d03240c3bb2dc4b6f89c281a7c2"
+    },
+    "exploring-data-for-looker": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/exploring-data-for-looker/SKILL.md",
+      "computedHash": "66341add039cd994ba445907d54fe3896c3509f8ad7fa5f3f69167e945e0b324"
+    },
+    "installing-looker-cli": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/installing-looker-cli/SKILL.md",
+      "computedHash": "f34ca78282d6ff2685af09d3a9765d844bf8527c2b4cad50dc8a779622fe92bf"
+    },
+    "looker-architect": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/looker-architect/SKILL.md",
+      "computedHash": "8b331dce43ece79fda4137700f09065ca6b4e0874246f1dcbc58132b3a7b9ed3"
+    },
+    "looker-developer-onboarding": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/looker-developer-onboarding/SKILL.md",
+      "computedHash": "92ee108702ae58f2709e2a4d198a1fd3a034a961511af730e32cc5acf3c20ac5"
+    },
+    "looker-mcp-skill": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/looker-mcp-skill/SKILL.md",
+      "computedHash": "9f041bbcf0c28fc8000cd864e705d35aca886e170dabe090c6c06f3f9e0ff350"
+    },
+    "looker-performance-optimizer": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/looker-performance-optimizer/SKILL.md",
+      "computedHash": "536043c0b72e399644698bf09f94fbbe3c0499de468be97a7f501ea924a89065"
+    },
+    "lookml-access-grants": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-access-grants/SKILL.md",
+      "computedHash": "89fb55cd7e2c9ac9f05c630dbfc881992090294e4f8b007cb03733f6a3a36262"
+    },
+    "lookml-explore": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-explore/SKILL.md",
+      "computedHash": "c5554a05d0e6e558cac73106defccae72138c23b349371b49e662ac9f95953b2"
+    },
+    "lookml-fields": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-fields/SKILL.md",
+      "computedHash": "d16c6a78f01e62d4e032f5996fac47d9033a959311f2e5511aa121e584bf31d7"
+    },
+    "lookml-liquid": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-liquid/SKILL.md",
+      "computedHash": "e136691ec30f3a84156e551ffb221be956034a610a95158045b21ce8f2b42fa9"
+    },
+    "lookml-model": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-model/SKILL.md",
+      "computedHash": "55ebcdd9b5c92bc0c3ce9c296c88edb3ac36ead0302726def0d97cadbf4faa57"
+    },
+    "lookml-modeling-guidelines": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-modeling-guidelines/SKILL.md",
+      "computedHash": "ea306c5ce6c1f55de50cc18500c2cd10c0809ec4206ebd62dd905e00df640e1c"
+    },
+    "lookml-refinements": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-refinements/SKILL.md",
+      "computedHash": "af3632508af03afc4302dcb166573fab8051f921cebe64d70d58cd5f2ea8f4b8"
+    },
+    "lookml-reviewer": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-reviewer/SKILL.md",
+      "computedHash": "96338f6e0b7a40a28bfcfebabeb88514ae6ec54386e75c68ddec51c2e79f3864"
+    },
+    "lookml-sets": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-sets/SKILL.md",
+      "computedHash": "21508c3bde39a213758f1e4535cd94e3e6ed6bd643b2c21e54eeb6a7cb71967c"
+    },
+    "lookml-tests": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-tests/SKILL.md",
+      "computedHash": "72786aede2ba8c3404d9c83117e83df048329b2aa4ff4637437e3c67d5953a92"
+    },
+    "lookml-view": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lookml-view/SKILL.md",
+      "computedHash": "cf640d7aebe066f592f8eb6766c0112e918338a0dbcaeac8aa07f505cbb08e26"
+    },
+    "onboarding-preflight-check": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/onboarding-preflight-check/SKILL.md",
+      "computedHash": "38dcabdc7449a3f5de413fc9d80653bed775b42cfb2aff5c1f6372f98c1c926e"
+    },
+    "setting-up-looker-project": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/setting-up-looker-project/SKILL.md",
+      "computedHash": "b0759b59de8b88b1309464535d60189d5fa9a9158dae9bd130ee27a82e8eca78"
+    },
+    "snowflake-to-bigquery-converter": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/snowflake-to-bigquery-converter/SKILL.md",
+      "computedHash": "4720ace2e5438c5ad0d622e02c530d9bfc1b7c75e91c32be4ec636bd7354f320"
+    },
+    "using-looker-cli": {
+      "source": "looker-open-source/looker-skills",
+      "sourceType": "github",
+      "skillPath": "skills/using-looker-cli/SKILL.md",
+      "computedHash": "99269b3972dc9d45febff273c4223d5571a2c85a6a86229d552d4cc86606aa39"
+    }
+  }
+}
