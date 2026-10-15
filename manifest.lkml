@@ -12,5 +12,5 @@ constant: star_rating_html {
   ({{ value }})
   </div>
   </div>"
-}
 
+}

@@ -1,4 +1,4 @@
-connection: "cymbal_gadgets"
+connection: "bq_faa"
 
 include: "/views/*"
 include: "/dashboards/*"
