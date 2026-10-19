@@ -21,10 +21,30 @@ explore: transactions {
     sql_on: ${transactions.salesid} = ${marketing_campaign_impact.salesid} ;;
     relationship: one_to_many
   }
+  join: customer_spending_ndt {
+    view_label: "Customer Loyalty & Spending (NDT)"
+    sql_on: ${transactions.customerid} = ${customer_spending_ndt.customerid} ;;
+    relationship: many_to_one
+  }
+  join: customer_loyalty_tiers_ndt {
+    view_label: "Customer Tier Rankings (NDT)"
+    sql_on: ${transactions.customerid} = ${customer_loyalty_tiers_ndt.customerid} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: customer_spending_ndt {
+  label: "💎 Cymbal Gadgets: Customer Loyalty & Spending"
+  description: "Customer-level spending analysis, revenue percentile thresholds (Top 1%, 5%, 10%), and loyalty tier rankings."
+
+  join: customer_loyalty_tiers_ndt {
+    view_label: "Customer Tier Rankings (NDT)"
+    sql_on: ${customer_spending_ndt.customerid} = ${customer_loyalty_tiers_ndt.customerid} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: product_reviews {
   label: "🛍️ Cymbal Gadgets: Product Reviews"
 }
 
-#test
