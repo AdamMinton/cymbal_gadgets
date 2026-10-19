@@ -291,6 +291,36 @@ view: transactions {
     filters: [shipment_status: "Delayed"]
   }
 
+  measure: revenue_per_customer {
+    group_label: "Loyalty & Customer Spending"
+    label: "Average Revenue per Customer"
+    description: "Total Revenue divided by Total Unique Customers."
+    type: number
+    sql: 1.0 * ${total_revenue} / NULLIF(${unique_customers}, 0) ;;
+    value_format_name: usd
+    drill_fields: [transaction_details*]
+  }
+
+  measure: transactions_per_customer {
+    group_label: "Loyalty & Customer Spending"
+    label: "Average Transactions per Customer"
+    description: "Total Transactions divided by Total Unique Customers."
+    type: number
+    sql: 1.0 * ${count} / NULLIF(${unique_customers}, 0) ;;
+    value_format_name: decimal_1
+    drill_fields: [transaction_details*]
+  }
+
+  measure: gross_profit_per_customer {
+    group_label: "Loyalty & Customer Spending"
+    label: "Average Gross Profit per Customer"
+    description: "Total Gross Profit divided by Total Unique Customers."
+    type: number
+    sql: 1.0 * ${total_gross_profit} / NULLIF(${unique_customers}, 0) ;;
+    value_format_name: usd
+    drill_fields: [transaction_details*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: transaction_details {
     fields: [
@@ -305,3 +335,4 @@ view: transactions {
     ]
   }
 }
+
