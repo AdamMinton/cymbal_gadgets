@@ -1,8 +1,8 @@
 # Gemini Agent Guidelines - Looker Project
 
 ## Looker Project Specification
-- **Instance URL:** https://63d8480f-f779-43e6-b043-34fbb61a06e6.looker.app
-- **Project ID:** demo_cg5839
+- **Instance URL:** https://experiment-mcp-ui-c.auxilia.lookersandbox.com/
+- **Project ID:** cymbal_gadgets
 
 ## Core Development Principles
 - **LookML Best Practices:** Always consult available Looker skills and documentation for instructions on creating and optimizing LookML.

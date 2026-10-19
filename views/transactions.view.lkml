@@ -291,33 +291,6 @@ view: transactions {
     filters: [shipment_status: "Delayed"]
   }
 
-  measure: revenue_per_customer {
-    label: "Average Revenue per Customer"
-    description: "Total revenue divided by total unique customers."
-    type: number
-    sql: 1.0 * ${total_revenue} / NULLIF(${unique_customers}, 0) ;;
-    value_format_name: usd
-    drill_fields: [transaction_details*]
-  }
-
-  measure: gross_profit_per_customer {
-    label: "Average Gross Profit per Customer"
-    description: "Total gross profit divided by total unique customers."
-    type: number
-    sql: 1.0 * ${total_gross_profit} / NULLIF(${unique_customers}, 0) ;;
-    value_format_name: usd
-    drill_fields: [transaction_details*]
-  }
-
-  measure: transactions_per_customer {
-    label: "Average Transactions per Customer"
-    description: "Total transactions divided by total unique customers."
-    type: number
-    sql: 1.0 * ${count} / NULLIF(${unique_customers}, 0) ;;
-    value_format_name: decimal_1
-    drill_fields: [transaction_details*]
-  }
-
   # ----- Sets of fields for drilling ------
   set: transaction_details {
     fields: [
